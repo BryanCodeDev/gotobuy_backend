@@ -8,7 +8,7 @@ const orderRoutes = require('../routes/orders');
 const authRoutes = require('../routes/auth');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080 || 5000;
 
 const allowedOrigins = [
   'https://gotobuyy.com',
