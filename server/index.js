@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const initializeDatabase = require('../config/initDB');
 require('dotenv').config();
 
 const paymentRoutes = require('../routes/payment');
@@ -7,11 +8,12 @@ const orderRoutes = require('../routes/orders');
 const authRoutes = require('../routes/auth');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 const allowedOrigins = [
   'https://gotobuyy.com',
   'https://www.gotobuyy.com',
+  'https://wonderful-joy-production-9b32.up.railway.app',
   'http://localhost:3000',
   'http://localhost:5173'
 ];
@@ -51,9 +53,12 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  
+  await initializeDatabase();
+  console.log('✅ Base de datos migrada y lista');
 });
 
 module.exports = app;

@@ -4,7 +4,7 @@ const pool = require('../config/db');
 const router = express.Router();
 
 const mp = new MercadoPago.MercadoPagoConfig({
-  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN || 'TEST_ACCESS_TOKEN_HERE'
+  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN
 });
 
 router.post('/create-preference', async (req, res) => {
@@ -36,7 +36,7 @@ router.post('/create-preference', async (req, res) => {
           pending: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/pending`
         },
         auto_return: 'approved',
-        notification_url: `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/payment/webhook`,
+        notification_url: `${process.env.BACKEND_URL || 'http://localhost:8080'}/api/payment/webhook`,
         external_reference: orderId ? orderId.toString() : Date.now().toString()
       }
     });

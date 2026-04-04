@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, username: user.username },
-      process.env.JWT_SECRET || 'gotobuyy_secret_key_2026_colombia',
+      process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
@@ -53,7 +53,7 @@ router.post('/verify', async (req, res) => {
       return res.status(401).json({ valid: false });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'gotobuyy_secret_key_2026_colombia');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     const [users] = await pool.execute('SELECT id, username, email FROM admin_users WHERE id = ?', [decoded.id]);
 
