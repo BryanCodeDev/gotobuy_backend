@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const initializeDatabase = require('../config/initDB');
-require('dotenv').config();
 
 const paymentRoutes = require('../routes/payment');
 const orderRoutes = require('../routes/orders');
