@@ -59,7 +59,13 @@ async function initializeDatabase() {
       console.log('✅ Base de datos inicializada correctamente');
       return;
     } catch (error) {
-      console.error(`❌ Error en intento ${attempt}:`, error.message);
+      console.error(`❌ Error en intento ${attempt}:`);
+      console.error('  Código:', error.code);
+      console.error('  Mensaje:', error.message);
+      console.error('  Host:', process.env.MYSQLHOST || process.env.DB_HOST);
+      console.error('  Puerto:', process.env.MYSQLPORT || process.env.DB_PORT);
+      console.error('  Usuario:', process.env.MYSQLUSER || process.env.DB_USER);
+      console.error('  Base de datos:', process.env.MYSQLDATABASE || process.env.DB_NAME);
       
       if (attempt === maxRetries) {
         console.error('❌ No se pudo conectar a la base de datos después de', maxRetries, 'intentos');
