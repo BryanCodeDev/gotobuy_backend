@@ -2,8 +2,8 @@ const pool = require('./db');
 const bcrypt = require('bcryptjs');
 
 async function initializeDatabase() {
-  const maxRetries = 5;
-  const retryDelay = 3000;
+  const maxRetries = 15;
+  const retryDelay = 5000;
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
