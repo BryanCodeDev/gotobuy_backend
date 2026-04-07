@@ -31,12 +31,12 @@ router.post('/create-preference', async (req, res) => {
           email: customerEmail
         },
         back_urls: {
-          success: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/success?order_id=${orderId}`,
-          failure: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/failure`,
-          pending: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/pending`
+          success: `${process.env.FRONTEND_URL}/payment/success?order_id=${orderId}`,
+          failure: `${process.env.FRONTEND_URL}/payment/failure`,
+          pending: `${process.env.FRONTEND_URL}/payment/pending`
         },
         auto_return: 'approved',
-        notification_url: `${process.env.BACKEND_URL || 'http://localhost:8080'}/api/payment/webhook`,
+        notification_url: `${process.env.BACKEND_URL}/api/payment/webhook`,
         external_reference: orderId ? orderId.toString() : Date.now().toString()
       }
     });

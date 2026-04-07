@@ -45,15 +45,15 @@ async function initializeDatabase() {
         )
       `);
 
-      const [existingAdmin] = await pool.execute('SELECT * FROM admin_users WHERE username = ?', ['admin']);
+      const [existingAdmin] = await pool.execute('SELECT * FROM admin_users WHERE username = ?', ['juancabas']);
       
       if (existingAdmin.length === 0) {
-        const hashedPassword = await bcrypt.hash('admin123', 10);
+        const hashedPassword = await bcrypt.hash('Juancholo25', 10);
         await pool.execute(
           'INSERT INTO admin_users (username, password, email) VALUES (?, ?, ?)',
-          ['admin', hashedPassword, 'admin@gotobuyy.com']
+          ['juancabas', hashedPassword, 'juancabas@gotobuyy.com']
         );
-        console.log('✅ Usuario admin creado por defecto: admin / admin123');
+        console.log('✅ Usuario admin creado por defecto: juancabas / Juancholo25');
       }
 
       console.log('✅ Base de datos inicializada correctamente');

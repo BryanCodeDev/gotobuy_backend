@@ -8,25 +8,34 @@ const orderRoutes = require('../routes/orders');
 const authRoutes = require('../routes/auth');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 const allowedOrigins = process.env.FRONTEND_URL 
-  ? [process.env.FRONTEND_URL, ...process.env.FRONTEND_URL.includes('gotobuyy.com') ? ['https://www.gotobuyy.com'] : []]
-  : ['http://localhost:3000', 'http://localhost:5173'];
+  ? [
+      process.env.FRONTEND_URL, 
+      process.env.FRONTEND_URL.includes('gotobuyy.com') ? 'https://www.gotobuyy.com' : null,
+      'https://gotobuyy.com',
+      'https://www.gotobuyy.com'
+    ].filter(Boolean)
+  : ['http://localhost:5173', 'http://localhost:3000'];
 
-// En desarrollo permitir cualquier origen
-const corsOptions = process.env.NODE_ENV === 'production' 
-  ? {
-      origin: (origin, callback) => {
-        if (!origin || allowedOrigins.some(allowed => origin.startsWith(allowed))) {
-          callback(null, true);
-        } else {
-          callback(new Error('No permitido por CORS'));
-        }
-      },
-      credentials: true
+const corsOptions = {
+  origin: (origin, callback) => {
+    // En desarrollo permitir localhost
+    if (process.env.NODE_ENV !== 'production' && (!origin || origin.startsWith('http://localhost:'))) {
+      return callback(null, true);
     }
-  : { origin: true, credentials: true };
+    
+    // En producción validación estricta
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'), false);
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
+};
 
 app.use(cors(corsOptions));
 
